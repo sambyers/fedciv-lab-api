@@ -1,14 +1,39 @@
 [tool.poetry]
-name = "civop-lab-backend"
+name = "fedciv-lab-backend"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
+authors = ["Sam Byers", "Yashar Asgari", "Paul Merlitti"]
 
 [tool.poetry.dependencies]
 python = "^3.10"
+pyats = {extras = ["library"], version = "^22.2"}
+Flask = "^2.1.0"
 
 [tool.poetry.dev-dependencies]
+pytest = "^7.1.1"
+tox = "^3.24.5"
+black = "^22.3.0"
+flake8 = "^4.0.1"
 
 [build-system]
 requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+
+[tool.tox]
+legacy_tox_ini = """
+[tox]
+skipsdist = true
+envlist = py310
+
+[gh-actions]
+python =
+    3.10: py310
+
+[testenv]
+whitelist_externals = poetry
+commands =
+    poetry install -v
+    poetry run black .
+    poetry run flake8 --max-line-length 88
+    poetry run python -m pytest -v
+"""

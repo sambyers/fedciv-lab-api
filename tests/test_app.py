@@ -1,10 +1,10 @@
 import pytest
-from labapi import lab
+from app import app
 
 
 @pytest.fixture()
-def app():
-    lab.config.update(
+def app_setup():
+    app.config.update(
         {
             "TESTING": True,
         }
@@ -12,14 +12,14 @@ def app():
 
     # other setup can go here
 
-    yield lab
+    yield app
 
     # clean up / reset resources here
 
 
 @pytest.fixture()
-def client(app):
-    return app.test_client()
+def client(app_setup):
+    return app_setup.test_client()
 
 
 def test_lab_status(client):
