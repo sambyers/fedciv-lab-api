@@ -33,7 +33,7 @@ python =
 whitelist_externals = poetry
 commands =
     poetry install -v
-    poetry run black .
+    poetry run black . -v
     poetry run flake8 --max-line-length 88
     poetry run python -m pytest -v
 """

@@ -22,7 +22,7 @@ poetry show -t
 poetry run flask run
 ```
 
-## Testing
+## Test locally
 ```
 poetry run tox
 ```
