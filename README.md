@@ -1,6 +1,6 @@
 [![FedCiv Lab Backend CI](https://github.com/sambyers/fedciv-lab-backend/actions/workflows/main-commit-pr.yml/badge.svg)](https://github.com/sambyers/fedciv-lab-backend/actions/workflows/main-commit-pr.yml)
 
-# FedCiv Lab Backend
+# FedCiv Lab API
 
 ## Requirements
 1. Python 3.10
