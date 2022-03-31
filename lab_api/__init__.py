@@ -1,7 +1,7 @@
 from flask import Flask
 from genie.testbed import load
 
-# from lab_models import Lab
+from .services import DeviceLab
 
 
 app = Flask(__name__)
@@ -33,8 +33,8 @@ def get_testbed():
 # Get status of lab, e.g. default or configured.
 @app.get("/status")
 def status():
-    # lab = Lab(get_testbed())
-    # status = lab.get_device_status()
+    # device_lab = DeviceLab(get_testbed())
+    # status = device_lab.get_device_status()
     devices = {"dev1": "default", "dev2": "default"}
     return gen_resp("default", "default", "default", devices)
 
@@ -43,3 +43,10 @@ def status():
 def reset():
     devices = {"dev1": "default", "dev2": "default"}
     return gen_resp("default", "default", "default", devices, "complete")
+
+@app.get("/example")
+def example():
+    lab = DeviceLab(get_testbed())
+    lab.connect_to_all()
+    lab.update_default_cfg_exists()
+    return lab.get_default_cfg_exists()
