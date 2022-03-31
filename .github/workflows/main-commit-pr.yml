@@ -1,5 +1,5 @@
 ---
-name: FedCiv Lab Backend CI
+name: FedCiv Lab API CI
 
 on:
   push:

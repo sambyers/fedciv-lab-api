@@ -1,6 +1,10 @@
 from genie.libs.conf.testbed import Testbed
 
 
+# Add models of the lab and lab components.
+# Wrap device and platform automation with classes to simplify usage.
+# This is an example of modeling the lab and adding a pyATS testbed object.
+# The pyATS testbed obj gives us methods to interact with devices in the lab.
 class Lab:
     def __init__(self, testbed: Testbed) -> None:
         self.testbed = testbed

@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "fedciv-lab-backend"
+name = "fedciv-lab-api"
 version = "0.1.0"
 description = ""
 authors = ["Sam Byers", "Yashar Asgari", "Paul Merlitti"]
