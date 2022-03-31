@@ -20,6 +20,8 @@ from genie.libs.conf.testbed import Testbed
 # Wrap device and platform automation with classes to simplify usage.
 # This is an example of modeling the lab and adding a pyATS testbed object.
 # The pyATS testbed obj gives us methods to interact with devices in the lab.
+
+
 class DeviceLab:
     def __init__(self, testbed: Testbed) -> None:
         self.testbed = testbed
@@ -42,4 +44,3 @@ class DeviceLab:
     def connect_to_all(self) -> None:
         for device in self.testbed:
             device.connect()
-

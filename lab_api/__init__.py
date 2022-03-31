@@ -6,6 +6,7 @@ from .services import DeviceLab
 
 app = Flask(__name__)
 
+
 # Default response template
 def gen_resp(
     dnac: str = None,
@@ -26,9 +27,11 @@ def gen_resp(
         resp.update({"reset": reset})
     return resp
 
+
 # If we're using pyATS Lib, we will load the testbed that is a model of the lab.
 def get_testbed():
     return load("lab_data/testbed.yaml")
+
 
 # Get status of lab, e.g. default or configured.
 @app.get("/status")
@@ -38,11 +41,13 @@ def status():
     devices = {"dev1": "default", "dev2": "default"}
     return gen_resp("default", "default", "default", devices)
 
+
 # Reset the state of the entire lab back to default.
 @app.put("/reset")
 def reset():
     devices = {"dev1": "default", "dev2": "default"}
     return gen_resp("default", "default", "default", devices, "complete")
+
 
 @app.get("/example")
 def example():

@@ -7,7 +7,8 @@ from lab_api import services
 def testbed():
     # Setup testbed for testing
     testbed = load("lab_data/testbed.yaml")
-    yield "testbed"
+    yield testbed
+
 
 def test_devicelab_testbed(testbed):
     lab = services.DeviceLab(testbed)
