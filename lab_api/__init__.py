@@ -7,27 +7,18 @@ from .services import DeviceLab
 app = FastAPI()
 
 # Response Models
-class Status(BaseModel):
+class LabComponent(BaseModel):
+    name: str
+    status: str
+
+class LabStatus(BaseModel):
     dnac: dict | None = None
     sdwan: dict | None = None
     ise: dict | None = None
     devices: list[dict] | None = None
 
 class Response(BaseModel):
-    status: Status | None = None
-
-# Response templates
-response = {
-    'status': {
-        'dnac': None,
-        'sdwan': None,
-        'ise': None,
-        'devices': None,
-    },
-}
-
-# name is the system's name, status is default or configured
-component_resp = {'name': None, 'status': None}
+    status: LabStatus | None = None
 
 # If we're using pyATS Lib, we will load the testbed that is a model of the lab.
 def get_testbed():
@@ -40,19 +31,20 @@ def status():
     # device_lab = DeviceLab(get_testbed())
     # status = device_lab.get_device_status()
     
-    # Fake dnac info that would come from a backing service
-    dnac_resp = component_resp.copy()
-    dnac_resp['name'] = 'dnac1'
-    dnac_resp['status'] = 'default'
-    response['status']['dnac'] = dnac_resp
-    response['status']['devices'] = []
-    # Fill out some fake devices
+    # Make lab component model with fake dnac info
+    # We normally get info from backing services that talks to the lab
+    dnac = LabComponent(name='dnac1', status='default')
+    # Add DNAC to lab status model
+    lab_status = LabStatus(dnac=dnac, devices=[])
+    # Add status model to response model
+    response = Response(status=lab_status)
+    # Make devices model with fake devices
     for i in range(5):
-        device = component_resp.copy()
-        device['name'] = f'device{i}'
-        device['status'] = 'default'
-        response['status']['devices'].append(device)
-    return response
+        # Make new lab component model with fake device info
+        device = LabComponent(name=f'device{i}', status='default')
+        # Add device model to lab_status model
+        lab_status.devices.append(device)
+    return response.dict()
 
 
 # Reset the state of the entire lab back to default.
