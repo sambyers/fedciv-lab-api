@@ -1,32 +1,19 @@
 import pytest
+from fastapi.testclient import TestClient
 from lab_api import app
 
 
-@pytest.fixture()
-def app_setup():
-    app.config.update(
-        {
-            "TESTING": True,
-        }
-    )
-
-    # other setup can go here
-
-    yield app
-
-    # clean up / reset resources here
+@pytest.fixture
+def test_client():
+    client = TestClient(app)
+    yield client
 
 
-@pytest.fixture()
-def client(app_setup):
-    return app_setup.test_client()
+def test_lab_status(test_client):
+    response = test_client.get("/status")
+    assert b"default" in response.status
 
 
-def test_lab_status(client):
-    response = client.get("/status")
-    assert b"default" in response.data
-
-
-def test_lab_reset(client):
-    response = client.put("/reset")
-    assert b"complete" in response.data
+def test_lab_reset(test_client):
+    response = test_client.put("/reset")
+    assert b"complete" in response.status

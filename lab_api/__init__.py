@@ -50,8 +50,10 @@ def status():
 # Reset the state of the entire lab back to default.
 @app.put("/reset")
 def reset():
-    devices = {"dev1": "default", "dev2": "default"}
-    return gen_resp("default", "default", "default", devices, "complete")
+    dnac = LabComponent(name='dnac1', status='default')
+    lab_status = LabStatus(dnac=dnac)
+    response = Response(status=lab_status)
+    return response.dict()
 
 
 @app.get("/example")
