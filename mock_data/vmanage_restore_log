@@ -1,0 +1,12 @@
+vmanage:~$ more /var/log/nms/neo4j-restore.log 
+Apr 15, 2022 5:55:37 PM org.neo4j.driver.internal.logging.JULogger info
+INFO: Routing driver instance 409340169 created for server address localhost:7687
+Apr 15, 2022 5:55:38 PM org.neo4j.driver.internal.logging.JULogger info
+INFO: Routing driver instance 39469102 created for server address localhost:7687
+Apr 15, 2022 5:59:21 PM org.neo4j.driver.internal.logging.JULogger info
+INFO: Routing driver instance 1688036754 created for server address localhost:7687
+.
+user: neo4j; command: /bin/bash -c  /neo4j/bin/neo4j_restore /backup/staging 
+restore configuration-db from /backup/staging
+Sucessfully restore neo4j and system database
+vmanage:~$
