@@ -1,0 +1,34 @@
+---
+testbed:
+    name: Mock_Testbed
+    credentials:
+        default:
+            username: test
+            password: test
+    custom:
+        default_cfg_file: discovery.cfg
+devices:
+    csr1000v-1:
+        alias: mock1
+        type: router
+        os: iosxe
+        platform: asr1k
+        connections:
+            ssh:
+                command: >
+                    mock_device_cli --os iosxe --mock_data_dir
+                    mock_data/csr1 --state connect
+                protocol: unknown
+                ip: 10.0.0.1
+    csr1000v-2:
+        alias: mock2
+        type: router
+        os: iosxe
+        platform: asr1k
+        connections:
+            ssh:
+                command: >
+                    mock_device_cli --os iosxe --mock_data_dir
+                    mock_data/csr2 --state connect
+                protocol: unknown
+                ip: 10.0.0.2

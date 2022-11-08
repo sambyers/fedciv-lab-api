@@ -1,0 +1,24 @@
+---
+# Mock appliances
+dnac:
+    username: maglev
+    password: 12345!
+    host: 10.1.1.1
+    port: 2222
+    backup_id: 123456 # c9fed0ed-a932-46bc-947f-1e6dd0412f18
+ise:
+    username: admin
+    password: 12345!
+    host: 192.168.1.2
+    version: 3.1.0
+    port: 22
+    backup_file: configdb-backup-test-CFG10-220427-2035.tar.gpg
+    backup_key: C1sco123
+    backup_repo: ubuntu-ftp
+    backup_repo_pass: 12345
+vmanage:
+    username: admin
+    password: 12345!
+    host: 192.168.1.3
+    port: 22
+    backup_path: /home/admin/configdb-backup-test.tar.gz

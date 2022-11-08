@@ -1,0 +1,22 @@
+---
+testbed:
+    name: Sandbox_Testbed
+    credentials:
+        default:
+            username: developer
+            password: C1sco12345
+        enable:
+            password: C1sco12345
+    custom:
+        default_cfg_file: discovery.cfg
+
+devices:
+    csr1000v-1: # <----- must match to your device hostname in the prompt
+        os: iosxe
+        type: router
+        platform: csr1000v
+        connections:
+            ssh:
+                protocol: ssh
+                ip: ios-xe-mgmt-latest.cisco.com
+                port: 22

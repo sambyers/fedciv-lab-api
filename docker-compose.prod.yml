@@ -1,0 +1,8 @@
+version: "3.9"
+services:
+  api:
+    labels:
+      - "traefik.http.routers.api.rule=Host(`10.83.16.185`)"
+    command: "./start.sh"
+  rq-worker:
+    command: "./start-worker.sh"

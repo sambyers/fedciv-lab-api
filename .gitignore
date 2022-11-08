@@ -1,0 +1,13 @@
+__pycache__
+.pytest_cache
+*.pyc
+.tox
+.DS_Store
+lab_data/testbed.yaml
+lab_data/appliances.yaml
+lab_data/lab_devices.xlsx
+dist/
+*.zip
+.env
+CIVLAB_API_KEY
+lab_data/

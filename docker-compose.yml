@@ -1,0 +1,40 @@
+version: "3.9"
+services:
+  api:
+    build: .
+    image: civlab-api:latest
+    expose: 
+      - "80"
+    labels:
+      # Set the host to the IP or DN that will be used to access the API
+      - "traefik.http.routers.api.rule=Host(`localhost`)"
+    depends_on:
+      - reverse-proxy
+      - redis
+      - rq-worker
+    restart: always
+  reverse-proxy:
+    image: traefik:v2.6
+    command: --api.insecure=true --providers.docker
+    ports:
+      - "80:80"
+      - "8080:8080"
+    volumes:
+      # So that Traefik can listen to the Docker events
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: always
+  redis:
+    image: "redis:alpine"
+    expose:
+      - "6379"
+    restart: always
+  rq-worker:
+    image: rq-worker:latest
+    build: .
+    depends_on:
+      - redis
+    labels:
+      - "traefik.enable=false"
+    # Remove mock to use the lab network devices
+    command: "./start-worker.sh mock"
+    restart: always

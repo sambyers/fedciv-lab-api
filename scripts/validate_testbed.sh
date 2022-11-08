@@ -1,0 +1,1 @@
+poetry run pyats validate testbed lab_data/testbed.yaml --connect
