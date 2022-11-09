@@ -104,20 +104,30 @@ def task_get_network_device_status(name: str) -> NetworkDevice:
     return result
 
 
+def net_device_model_packing(device):
+    return NetworkDevice(
+        name=device.name,
+        status=device.status,
+        host=str(device.connections.ssh.ip),
+        default_cfg_on_flash=device.default_config_exists,
+    )
+
+
 def task_get_network_device_status_all() -> list[NetworkDevice]:
     """Get all network devices status"""
     devices = []
     device_lab = DeviceLab(NETDEVICE_TESTBED)
     device_lab.connect_all()
     device_lab.get_status_all()
-    for device in device_lab:
-        net_device = NetworkDevice(
-            name=device.name,
-            status=device.status,
-            host=str(device.connections.ssh.ip),
-            default_cfg_on_flash=device.default_config_exists,
-        )
-        devices.append(net_device)
+    # for device in device_lab:
+    #     net_device = NetworkDevice(
+    #         name=device.name,
+    #         status=device.status,
+    #         host=str(device.connections.ssh.ip),
+    #         default_cfg_on_flash=device.default_config_exists,
+    #     )
+    #     devices.append(net_device)
+    devices = list(map(net_device_model_packing, device_lab))
     device_lab.disconnect_all()
     return devices
 
