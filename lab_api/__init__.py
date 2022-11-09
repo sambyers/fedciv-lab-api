@@ -127,7 +127,7 @@ def task_get_network_device_status_all() -> list[NetworkDevice]:
     #         default_cfg_on_flash=device.default_config_exists,
     #     )
     #     devices.append(net_device)
-    devices = list(map(net_device_model_packing, device_lab))
+    devices = list(map(net_device_model_packing, device_lab.devices))
     device_lab.disconnect_all()
     return devices
 
