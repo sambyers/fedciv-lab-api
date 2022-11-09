@@ -91,15 +91,14 @@ def task_get_network_device_status(name: str) -> NetworkDevice:
     if selectedDevice:
         logger.info(f"Connecting to: {selectedDevice.name}")
         selectedDevice.connect()
-        # status = device_lab.get_status(selectedDevice)
+        status = device_lab.get_status(selectedDevice)
         selectedDevice.disconnect()
-        result = net_device_model_packing(selectedDevice)
-        # result = NetworkDevice(
-        #     name=selectedDevice.name,
-        #     status=status,
-        #     host=str(selectedDevice.connections.ssh.ip),
-        #     default_cfg_on_flash=selectedDevice.default_config_exists,
-        # )
+        result = NetworkDevice(
+            name=selectedDevice.name,
+            status=status,
+            host=str(selectedDevice.connections.ssh.ip),
+            default_cfg_on_flash=selectedDevice.default_config_exists,
+        )
     else:
         result = NetworkDevice(name=name, error="Device not found.")
     return result
