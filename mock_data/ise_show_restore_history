@@ -1,0 +1,5 @@
+dc1-ise1-pan1/admin# show restore history 
+Thu Mar 17 18:50:24 UTC 2022: restore ise-with-users-ready4DNAC-CFG10-220314-1826.tar.gpg from repository ubuntu-ftp: success
+Tue Mar 22 21:49:07 UTC 2022: restore ise-with-users-ready4DNAC-CFG10-220314-1826.tar.gpg from repository ubuntu-ftp: success
+Fri Apr 08 19:54:08 UTC 2022: restore ise-with-users-ready4DNACb-CFG10-220325-1518.tar.gpg from repository ubuntu-ftp: success
+dc1-ise1-pan1/admin# 

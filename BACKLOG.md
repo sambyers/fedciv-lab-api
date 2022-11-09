@@ -7,12 +7,12 @@ SE gets lab status: default or configured.
 - ISE [DONE]
 - vManage [DONE]
 
-## Lab Reset [WIP]
+## Lab Reset [DONE]
 SE resets entire lab to default state.
-- DNAC [WIP]
+- DNAC [DONE]
 - Network Devices [WIP]
-- ISE [WIP]
-- vManage [WIP]
+- ISE [DONE]
+- vManage [DONE]
 
 ### Notifications
 Send notification of when reset is finished.
@@ -23,7 +23,7 @@ Send notification of when reset is finished.
 ## Task Queue [DONE]
 Use a task queue for lab tasks. This gives us the ability to run multiple tasks in parallel and queue up long running tasks (e.g., resetting ISE).
 
-## CLI [WIP]
+## CLI [DONE]
 SE administers all lab automation via CLI
 
 ## Identity
