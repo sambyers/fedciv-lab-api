@@ -1,5 +1,6 @@
 from time import sleep
 from typing import Callable
+from fastapi import Path
 from rq.job import Job
 from rq.exceptions import NoSuchJobError
 from .ise import ISE
@@ -563,7 +564,16 @@ def reset_network_device(name: str):
     response_model_exclude_unset=True,
     status_code=201,
 )
-def backup_network_device(name: str, cust_id: str):
+def backup_network_device(
+    name: str,
+    cust_id: str = Path(
+        title="The customer ID to add to the backup configuration file",
+        default="cuid_here"
+        min_length=5,
+        max_length=20,
+        regex=r"^\S+$",
+        ),
+    ):
     name.lower()
     backup_resp = rq_dispatcher_run(
         task_backup_network_device, id=f"{name}_backup", args=(name, cust_id)
