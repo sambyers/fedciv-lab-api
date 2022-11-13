@@ -343,7 +343,7 @@ def rq_dispatcher_multi_enq(task_map):
 
 
 # ROUTES
-@app.get("/list", response_model=ListResponse)
+@app.get("/v1/list", response_model=ListResponse)
 def list():
     """List all of the devices in the lab."""
     appliance_items = []
@@ -357,7 +357,7 @@ def list():
     return ListResponse(appliances=appliance_items, network_devices=device_items)
 
 
-@app.get("/status", response_model=StatusResponse, response_model_exclude_unset=True)
+@app.get("/v1/status", response_model=StatusResponse, response_model_exclude_unset=True)
 def status():
     # Common job id to task mapping
     task_map = {
@@ -379,7 +379,7 @@ def status():
 
 
 @app.get(
-    "/status/vmanage", response_model=StatusResponse, response_model_exclude_unset=True
+    "/v1/status/vmanage", response_model=StatusResponse, response_model_exclude_unset=True
 )
 def get_status_vmanage():
     lab_status_resp = LabStatus(
@@ -389,7 +389,7 @@ def get_status_vmanage():
 
 
 @app.get(
-    "/status/dnac", response_model=StatusResponse, response_model_exclude_unset=True
+    "/v1/status/dnac", response_model=StatusResponse, response_model_exclude_unset=True
 )
 def get_status_dnac():
     lab_status = LabStatus(
@@ -399,7 +399,7 @@ def get_status_dnac():
 
 
 @app.get(
-    "/status/ise", response_model=StatusResponse, response_model_exclude_unset=True
+    "/v1/status/ise", response_model=StatusResponse, response_model_exclude_unset=True
 )
 def get_status_ise():
     # Not using queue because we're talking to ISE API
@@ -411,7 +411,7 @@ def get_status_ise():
 
 # Status for all network devices in lab
 @app.get(
-    "/status/network-devices",
+    "/v1/status/network-devices",
     response_model=StatusResponse,
     response_model_exclude_unset=True,
 )
@@ -428,7 +428,7 @@ def get_status_network_devices():
 
 # Wildcard status route for network devices
 @app.get(
-    "/status/{name}", response_model=StatusResponse, response_model_exclude_unset=True
+    "/v1/status/{name}", response_model=StatusResponse, response_model_exclude_unset=True
 )
 def get_status_network_device(name: str):
     """
@@ -448,7 +448,7 @@ def get_status_network_device(name: str):
 
 
 # Retrieve status of job given the job ID
-@app.get("/job/{jobID}", response_model=JobResponse, response_model_exclude_unset=True)
+@app.get("/v1/job/{jobID}", response_model=JobResponse, response_model_exclude_unset=True)
 def get_job_status(jobID: str):
     """
     Get the status of queued jobs.
@@ -471,7 +471,7 @@ def get_job_status(jobID: str):
 
 # Reset the state of the entire lab back to default.
 @app.put(
-    "/reset",
+    "/v1/reset",
     response_model=MultiJobResponse,
     response_model_exclude_unset=True,
     status_code=201,
@@ -492,7 +492,7 @@ def reset():
 
 # Reset the state of the entire lab back to default.
 @app.put(
-    "/reset/dnac",
+    "/v1/reset/dnac",
     response_model=JobResponse,
     response_model_exclude_unset=True,
     status_code=201,
@@ -503,7 +503,7 @@ def reset_dnac():
 
 # Reset the state of the entire lab back to default.
 @app.put(
-    "/reset/ise",
+    "/v1/reset/ise",
     response_model=JobResponse,
     response_model_exclude_unset=True,
     status_code=201,
@@ -524,7 +524,7 @@ def reset_ise():
 
 # Reset the state of the entire lab back to default.
 @app.put(
-    "/reset/vmanage",
+    "/v1/reset/vmanage",
     response_model=JobResponse,
     response_model_exclude_unset=True,
     status_code=201,
@@ -534,7 +534,7 @@ def reset_vmanage():
 
 
 @app.put(
-    "/reset/network-devices",
+    "/v1/reset/network-devices",
     response_model=JobResponse,
     response_model_exclude_unset=True,
     status_code=201,
@@ -545,7 +545,7 @@ def reset_network_devices():
 
 # Reset a specified lab device
 @app.put(
-    "/reset/{name}",
+    "/v1/reset/{name}",
     response_model=JobResponse,
     response_model_exclude_unset=True,
     status_code=201,
@@ -558,7 +558,7 @@ def reset_network_device(name: str):
 
 # Backup a specified lab device current state
 @app.put(
-    "/backup/{name}/{cust_id}",
+    "/v1/backup/{name}/{cust_id}",
     response_model=StatusResponse,
     response_model_exclude_unset=True,
     status_code=201,

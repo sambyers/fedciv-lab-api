@@ -1,5 +1,5 @@
 import logging
-from datetime import datetime
+# from datetime import datetime
 from genie.libs.conf.testbed import Testbed
 from pyats.topology.device import Device
 
