@@ -1,4 +1,5 @@
 import logging
+from datetime import datetime
 from genie.libs.conf.testbed import Testbed
 from pyats.topology.device import Device
 
@@ -28,6 +29,7 @@ class DeviceLab:
         self._logger = logging.getLogger("civlab_api")
         self._reload_sleep = 300
         self._reload_timeout = 1200
+        self._backup_prefix = "cpoc_backup_"
 
     def get_status(self, device: Device) -> str:
         self._logger.info(f"Getting status of {device}...")
@@ -75,6 +77,15 @@ class DeviceLab:
         self._logger.info(f"Default config exists: {device.default_config_exists}")
         return device.default_config_exists
 
+    def is_file_on_flash(self, device: Device, filename: str) -> bool:
+        self._logger.info(f"Verifying default director for {device}.")
+        device.default_dir = device.api.get_platform_default_dir()
+        path = f"{device.default_dir}/{filename}"
+        self._logger.info(f"Verifying if {path} is on flash of {device}.")
+        exists = device.default_config_exists = device.api.verify_file_exists(path)
+        self._logger.info(f"{filename} exists on {device} at {path}: {exists}")
+        return exists
+
     def reset(self, device: Device) -> bool:
         """Alias for reset method"""
         diff = self.get_running_default_cfg_diff(device)
@@ -94,7 +105,7 @@ class DeviceLab:
             configure_replace=True,
         )
 
-    def reload(self, device):
+    def reload(self, device) -> None:
         # Reload device
         self._logger.info(f"Reloading {device}...")
         device.api.execute_reload(
@@ -104,10 +115,26 @@ class DeviceLab:
             timeout=self._reload_timeout,
         )
 
-    def reset_device_to_default(self, device: Device) -> bool:
+    def reset_device_to_default(self, device: Device) -> None:
         # Copy default cfg into startup
         self._logger.info(f"Resetting {device} to {device.default_cfg_path}...")
         device.api.execute_copy_to_startup_config(device.default_cfg_path)
+
+    def backup(self, device: Device, cust_id: str) -> bool:
+        """Alias for backup operation"""
+        backup_file = self.backup_running_to_flash(device, cust_id)
+        return self.is_file_on_flash(device, backup_file)
+    
+    def backup_running_to_flash(self, device: Device, cust_id: str) -> str:
+        self._logger.info(f"Backing up running configuration to flash on {device}...")
+        # timestamp = datetime.now().isoformat(timespec='seconds')
+        backup_fn = f"{self._backup_prefix}{cust_id}.cfg"
+        device.api.clean.copy_run_to_flash(file_name=backup_fn)
+        return backup_fn
+
+    def backup_running_to_flash_all(self, cust_id: str) -> None:
+        for device in self.testbed:
+            self.backup_running_to_flash(device, cust_id)
 
     def reset_device_to_default_all(self) -> None:
         for device in self.testbed:
@@ -131,9 +158,9 @@ class DeviceLab:
     def disconnect_all(self) -> None:
         self.testbed.disconnect()
 
-    def __iter__(self):
+    def __iter__(self) -> Device:
         for device in self.testbed:
             yield device
 
-    def __str__(self):
+    def __str__(self) -> str:
         print(self.devices)

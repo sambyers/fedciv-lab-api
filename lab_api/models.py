@@ -8,6 +8,7 @@ from pydantic import BaseModel
 class LabComponentBase(BaseModel):
     name: str
     host: str | None = None
+    backup: str | None = None
 
 
 class NetworkDevice(LabComponentBase):

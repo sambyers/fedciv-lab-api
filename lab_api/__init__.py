@@ -193,6 +193,25 @@ def task_reset_ise() -> tuple:
     return resp
 
 
+def task_backup_network_device(name: str, cust_id: str) -> bool:
+    logger.info(f"Backing up configuration on {name}")
+    device_lab = DeviceLab(NETDEVICE_TESTBED)
+    device = device_lab.devices.get(name)
+    if device:
+        logger.info(f"Connecting to: {device.name}")
+        device.connect()
+        backup_status = device_lab.backup(device, cust_id)
+        device.disconnect()
+        result = NetworkDevice(
+            name=device.name,
+            backup=backup_status,
+            host=str(device.connections.ssh.ip),
+        )
+    else:
+        result = NetworkDevice(name=name, error="Device not found.")
+    return result
+
+
 # TASK DISPATCH
 # Dispatch functions used to standardize getting job results from cache,
 # handle exceptions, and logging.
@@ -536,3 +555,23 @@ def reset_network_device(name: str):
     return rq_dispatcher_enq(
         task_reset_network_device, id=f"{name}_reset", args=(name,)
     )
+
+# Backup a specified lab device current state
+@app.put(
+    "/backup/{name}/{cust_id}",
+    response_model=StatusResponse,
+    response_model_exclude_unset=True,
+    status_code=201,
+)
+def backup_network_device(name: str, cust_id: str):
+    name.lower()
+    backup_resp = rq_dispatcher_run(
+        task_backup_network_device, id=f"{name}_backup", args=(name, cust_id)
+    )
+    lab_status = LabStatus()
+    if backup_resp.error:
+        lab_status.error = backup_resp.error
+        lab_status.devices = [backup_resp]
+    else:
+        lab_status.devices = [backup_resp]
+    return StatusResponse(status=lab_status)
