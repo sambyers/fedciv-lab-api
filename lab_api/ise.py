@@ -75,7 +75,7 @@ class ISE(ApplianceAPI):
         self._logger.debug(f"Updating repo: {repo}")
         try:
             r = self._api.repository.update_repository(
-                repo.name,
+                # repo.name,
                 password=password,
                 path=repo.path,
                 protocol=repo.protocol,
