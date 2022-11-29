@@ -179,7 +179,7 @@ def task_reset_ise() -> tuple:
     file = APPLIANCES["ise"]["backup_file"]
     repo = APPLIANCES["ise"]["backup_repo"]
     key = APPLIANCES["ise"]["backup_key"]
-    repo_pass = APPLIANCES["ise"]["backup_repo_pass"]
+    # repo_pass = APPLIANCES["ise"]["backup_repo_pass"]
     ise = ISE(
         host,
         username,
