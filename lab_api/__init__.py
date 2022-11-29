@@ -179,6 +179,7 @@ def task_reset_ise() -> tuple:
     file = APPLIANCES["ise"]["backup_file"]
     repo = APPLIANCES["ise"]["backup_repo"]
     key = APPLIANCES["ise"]["backup_key"]
+    repo_pass = APPLIANCES["ise"]["backup_repo_pass"]
     ise = ISE(
         host,
         username,
@@ -187,9 +188,9 @@ def task_reset_ise() -> tuple:
     )
     # Make sure the password to the repo is set correctly
     # It becomes unset after a restore
-    # update, msg = ise.update_repo_pass(repo, repo_pass)
-    # if not update:
-    #     return (update, msg)
+    update, msg = ise.update_repo_pass(repo, repo_pass)
+    if not update:
+        return (update, msg)
     resp = ise.reset(file, repo, key)
     return resp
 
@@ -534,6 +535,7 @@ def reset_vmanage():
     return rq_dispatcher_enq(task_reset_vmanage, id="reset_vmanage")
 
 
+# Reset all network devices in lab
 @app.put(
     "/v1/reset/network-devices",
     response_model=JobResponse,

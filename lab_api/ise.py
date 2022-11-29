@@ -69,6 +69,7 @@ class ISE(ApplianceAPI):
             return False
 
     def update_repo_pass(self, name, password) -> tuple:
+        """Update the ISE repo password"""
         repo = self.get_repo(name)
         self._logger.info(f"Updating password for ISE repo {repo.name}")
         self._logger.debug(f"Updating repo: {repo}")
