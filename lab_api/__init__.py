@@ -568,7 +568,7 @@ def backup_network_device(
     name: str,
     cust_id: str = Path(
         title="The customer ID to add to the backup configuration file",
-        default="cuid_here"
+        default="cuid_here",
         min_length=5,
         max_length=20,
         regex=r"^\S+$",
