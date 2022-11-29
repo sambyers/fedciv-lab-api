@@ -75,13 +75,13 @@ class ISE(ApplianceAPI):
         self._logger.debug(f"Updating repo: {repo}")
         try:
             r = self._api.repository.update_repository(
-                # repo.name,
+                repo.name,
                 password=password,
                 path=repo.path,
                 protocol=repo.protocol,
                 server_name=repo.serverName,
                 user_name=repo.userName,
-                name=repo.name,
+                # name=repo.name,
             )
         except (ciscoisesdkException, ApiError) as e:
             return False, str(e)
