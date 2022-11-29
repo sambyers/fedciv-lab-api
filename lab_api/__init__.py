@@ -560,7 +560,7 @@ def reset_network_device(name: str):
     )
 
 # Backup a specified lab device current state
-@app.put(
+@app.post(
     "/v1/backup/{name}/{cust_id}",
     response_model=StatusResponse,
     response_model_exclude_unset=True,

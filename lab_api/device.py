@@ -99,6 +99,14 @@ class DeviceLab:
         return device.default_config_exists
 
     def is_file_on_flash(self, device: Device, filename: str) -> bool:
+        """Determine if a file is on the device flash
+
+        args:
+            device: string name of the device to reset
+            filename: string filename to look for
+        return: bool
+        
+        """
         self._logger.info(f"Verifying default director for {device}.")
         device.default_dir = device.api.get_platform_default_dir()
         path = f"{device.default_dir}/{filename}"
